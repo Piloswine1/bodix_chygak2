@@ -24,13 +24,14 @@ if(NOT Catch2_FOUND)
     )
 
     FetchContent_MakeAvailable(Catch2)
+    list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/contrib)
 endif()
-
-include(CTest)
-include(Catch)
 
 add_executable(tests tests/test.cpp)
 target_link_libraries(tests Catch2::Catch2 bodix)
+
+include(CTest)
+include(Catch)
 catch_discover_tests(tests)
 
 add_executable(main main.cpp)
