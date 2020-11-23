@@ -120,5 +120,5 @@ TEST_CASE( "FullTestBodix", "[Matrix]" ) {
      };
      const auto [outVec, outSum] = Kraskal::invoke_alg(in);
      CHECK(exp == outVec);
-     REQUIRE(outSum == 59);
+     CHECK(outSum == 59);
  }
