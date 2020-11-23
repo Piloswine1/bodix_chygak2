@@ -113,10 +113,15 @@ TEST_CASE( "FullTestBodix", "[Matrix]" ) {
          {0, 0,  0,   0,  0,  0,  0,  0,  0,  0}
      };
      const TestEdgeVec exp {
-         {0, 3, 1},
-         {2, 3, 2},
-         {2, 4, 3},
-         {1, 4, 4}
+         {1, 2, 4},
+         {0, 4, 4},
+         {4, 6, 5},
+         {0, 1, 6},
+         {0, 3, 6},
+         {0, 9, 6},
+         {4, 5, 8},
+         {6, 7, 8},
+         {8, 9, 12}
      };
      const auto [outVec, outSum] = Kraskal::invoke_alg(in);
      CHECK(exp == outVec);
