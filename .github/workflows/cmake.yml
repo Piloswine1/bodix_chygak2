@@ -19,7 +19,7 @@ jobs:
 
     - name: Get Testing Lib
       # Installing testing library
-      run: sudo apt install catch2
+      run: sudo apt install -y catch2
       
     - name: Create Build Environment
       # Some projects don't allow in-source building, so create a separate build directory
