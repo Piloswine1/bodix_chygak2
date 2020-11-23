@@ -95,7 +95,7 @@ std::ostream& operator<<(std::ostream& os, const EdgeVec<T> &e)
     os<<"{\n";
     for(const auto &elem: e)
         os<<'\t'<<elem<<'\n';
-    return os<<'}';
+    return os<<"}\n";
 }
 
 template<typename T>
