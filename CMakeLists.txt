@@ -15,7 +15,6 @@ add_library(bodix SHARED
 find_package(Catch2)
 
 if(NOT Catch2_FOUND)
-
     Include(FetchContent)
 
     FetchContent_Declare(
@@ -24,19 +23,15 @@ if(NOT Catch2_FOUND)
       GIT_TAG        v2.13.1)
 
     FetchContent_MakeAvailable(Catch2)
-
-    if(Catch2_FOUND)
-
-	include(CTest)
-	add_executable(all_test tests/test.cpp)
-	target_link_libraries(all_test Catch2::Catch2 bodix)
-
-	include(Catch)
-	catch_discover_tests(all_test)
-
-    endif()
-
+    list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/contrib)
 endif()
+
+include(CTest)
+include(Catch)
+
+add_executable(tests tests/test.cpp)
+target_link_libraries(tests Catch2::Catch2 bodix)
+catch_discover_tests(tests)
 
 add_executable(main main.cpp)
 target_link_libraries(main bodix)
