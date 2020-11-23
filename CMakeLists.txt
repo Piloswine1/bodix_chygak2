@@ -12,7 +12,7 @@ add_library(bodix SHARED
   bodix.hpp
 )
 
-find_package(Catch2 REQUIRED)
+find_package(Catch2)
 
 if(NOT Catch2_FOUND)
 
