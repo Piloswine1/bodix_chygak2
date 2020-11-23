@@ -12,17 +12,28 @@ add_library(bodix SHARED
   bodix.hpp
 )
 
-find_package(Catch2)
+find_package(Catch2 QUIET)
 
-if(Catch2_FOUND)
-    include(CTest)
-    include(Catch)
+if(NOT Catch2_FOUND)
+    Include(FetchContent)
 
-    add_executable(tests tests/test.cpp)
-    target_link_libraries(tests Catch2::Catch2 bodix)
-    catch_discover_tests(tests)
+    FetchContent_Declare(
+	Catch2
+	GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+	GIT_TAG        v2.13.1
+    )
+
+    FetchContent_MakeAvailable(Catch2)
+
+    target_link_libraries(tests Catch2::Catch2)
 endif()
 
+include(CTest)
+include(Catch)
+
+add_executable(tests tests/test.cpp)
+target_link_libraries(tests Catch2::Catch2 bodix)
+catch_discover_tests(tests)
 
 add_executable(main main.cpp)
 target_link_libraries(main bodix)
