@@ -78,7 +78,7 @@ struct DisjointSet
 };
 
 template<typename T, size_t N>
-using Matrix = std::array<std::array<T, N>, N>;
+using Matrix = T[N][N];
 
 template<typename T>
 using EdgeVec = std::vector<Edge<T>>;
@@ -103,11 +103,14 @@ bool operator==(const EdgeVec<T> &a, const EdgeVec<T> &b) {
     return std::equal(a.begin(), a.end(), b.begin());
 }
 
-template<typename T, size_t N>
-bool operator==(const Matrix<T,N> &a, const Matrix<T,N> &b)
-{
-    return std::equal(a.begin(), a.end(), b.begin());
-}
+//template<typename T, size_t N>
+//bool operator==(Matrix<T,N> a, Matrix<T,N> b)
+//{
+//    for(int i = 0; i < N; ++i)
+//        for(int j = 0; j < N; ++j)
+//            if (a[i][j] != b[i][j]) return false;
+//    return true;
+//}
 
 namespace Utils {
     template<class T, size_t N>

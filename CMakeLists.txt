@@ -14,24 +14,15 @@ add_library(bodix SHARED
 
 find_package(Catch2)
 
-if(NOT Catch2_FOUND)
-    Include(FetchContent)
+if(Catch2_FOUND)
+    include(CTest)
+    include(Catch)
 
-    FetchContent_Declare(
-      Catch2
-      GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-      GIT_TAG        v2.13.1)
-
-    FetchContent_MakeAvailable(Catch2)
-    list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/contrib)
+    add_executable(tests tests/test.cpp)
+    target_link_libraries(tests Catch2::Catch2 bodix)
+    catch_discover_tests(tests)
 endif()
 
-include(CTest)
-include(Catch)
-
-add_executable(tests tests/test.cpp)
-target_link_libraries(tests Catch2::Catch2 bodix)
-catch_discover_tests(tests)
 
 add_executable(main main.cpp)
 target_link_libraries(main bodix)
