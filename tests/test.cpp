@@ -5,6 +5,7 @@
 typedef Matrix<int,4> TestMatrix;
 typedef EdgeVec<int> TestEdgeVec;
 typedef DisjointSet<int> TestDisjointSet;
+typedef TestDisjointSet::Set TestSet;
 
 TEST_CASE( "Utils make_vec", "[Matrix]" ) {
     const TestMatrix in {
@@ -49,17 +50,17 @@ TEST_CASE( "Utils sort", "[Matrix]" ) {
 TEST_CASE( "DisjointSet creation", "[DisjointSet]" ) {
     const TestDisjointSet in(4);
     const TestDisjointSet exp {
-        TestDisjointSet::Set{0, 0},
-        TestDisjointSet::Set{1, 1},
-        TestDisjointSet::Set{2, 2},
-        TestDisjointSet::Set{3, 3}
+        TestSet{0, 0},
+        TestSet{1, 1},
+        TestSet{2, 2},
+        TestSet{3, 3}
     };
     REQUIRE(in == exp);
 }
 
 TEST_CASE( "DisjointSet Find", "[DisjointSet]" ) {
     const TestDisjointSet in(4);
-    const TestDisjointSet::Set exp {3, 3};
+    const TestSet exp {3, 3};
     const auto out = in.Find(3);
     REQUIRE(exp == out);
 }
@@ -67,13 +68,13 @@ TEST_CASE( "DisjointSet Find", "[DisjointSet]" ) {
 TEST_CASE( "DisjointSet Union", "[DisjointSet]" ) {
     const TestDisjointSet in(4);
     const TestDisjointSet exp {
-        TestDisjointSet::Set{0, 0},
-        TestDisjointSet::Set{1, 1},
-        TestDisjointSet::Set{2, 2},
-        TestDisjointSet::Set{3, 2}
+        TestSet{0, 0},
+        TestSet{1, 1},
+        TestSet{2, 2},
+        TestSet{3, 2}
     };
-    const TestDisjointSet::Set help1 {2, 2};
-    const TestDisjointSet::Set help2 {3, 3};
+    const TestSet help1 {2, 2};
+    const TestSet help2 {3, 3};
     TestDisjointSet out(in);
     out.Union(help1, help2);
     REQUIRE(exp == out);
@@ -98,7 +99,7 @@ TEST_CASE( "FullTest", "[Matrix]" ) {
     CHECK(outSum == 10);
 }
 
- TEST_CASE( "FullTestBodix", "[Matrix]" ) {
+TEST_CASE( "FullTestBodix", "[Matrix]" ) {
      const Kraskal::LabMatrix in {
          {0, 6,  10,  6,  4,  0,  8,  0,  0,  6},
          {0, 0,  4,   0,  0,  0,  0,  0,  0,  8},

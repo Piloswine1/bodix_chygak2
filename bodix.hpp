@@ -57,7 +57,7 @@ struct DisjointSet
     DisjointSet(size_t N)
     {
         for(int i = 0; i < N; ++i)
-            vals.emplace_back(i, i);
+            vals.push_back(Set{i, i});
     }
 
     Set Find(const T &elem) const
@@ -103,23 +103,14 @@ bool operator==(const EdgeVec<T> &a, const EdgeVec<T> &b) {
     return std::equal(a.begin(), a.end(), b.begin());
 }
 
-//template<typename T, size_t N>
-//bool operator==(Matrix<T,N> a, Matrix<T,N> b)
-//{
-//    for(int i = 0; i < N; ++i)
-//        for(int j = 0; j < N; ++j)
-//            if (a[i][j] != b[i][j]) return false;
-//    return true;
-//}
-
 namespace Utils {
-    template<class T, size_t N>
+    template<typename T, size_t N>
     EdgeVec<T> make_vec(const Matrix<T, N> &mat)
     {
         EdgeVec<T> retval;
         for(int i = 0; i < N; ++i)
             for(int j = 0; j < N; ++j)
-                if (i > j && mat[j][i] != 0) retval.emplace_back(j, i, mat[j][i]);
+                if (i > j && mat[j][i] != 0) retval.push_back(Edge<T>{j, i, mat[j][i]});
         return retval;
     }
 
@@ -153,12 +144,12 @@ namespace Kraskal
             const auto elem1 = set.Find(elem.from);
             const auto elem2 = set.Find(elem.to);
             if (elem1.rank != elem2.rank) {
-                retval.emplace_back(elem);
+                retval.push_back(elem);
                 set.Union(elem1, elem2);
                 sum += elem.val;
             }
         }
-        return {retval, sum};
+        return std::make_pair(retval, sum);
     }
 }
 
