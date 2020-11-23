@@ -97,3 +97,27 @@ TEST_CASE( "FullTest", "[Matrix]" ) {
     CHECK(exp == outVec);
     CHECK(outSum == 10);
 }
+
+ TEST_CASE( "FullTestBodix", "[Matrix]" ) {
+     const Kraskal::LabMatrix in {
+         0, 6,  10,  6,  4,  0,  8,  0,  0,  6,
+         0, 0,  4,   0,  0,  0,  0,  0,  0,  8,
+         0, 0,  0,   9,  0,  0,  0,  0,  0,  0,
+         0, 0,  0,   0,  7,  0,  0,  0,  0,  0,
+         0, 0,  0,   0,  0,  8,  5,  0,  0,  0,
+         0, 0,  0,   0,  0,  0,  10, 15, 0,  0,
+         0, 0,  0,   0,  0,  0,  0,  8,  15, 9,
+         0, 0,  0,   0,  0,  0,  0,  0,  19, 0,
+         0, 0,  0,   0,  0,  0,  0,  0,  0,  12,
+         0, 0,  0,   0,  0,  0,  0,  0,  0,  0
+     };
+     const TestEdgeVec exp {
+         {0, 3, 1},
+         {2, 3, 2},
+         {2, 4, 3},
+         {1, 4, 4}
+     };
+     const auto [outVec, outSum] = Kraskal::invoke_alg(in);
+     CHECK(exp == outVec);
+     REQUIRE(outSum == 59);
+ }

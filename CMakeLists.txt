@@ -14,9 +14,13 @@ add_library(bodix SHARED
 
 find_package(Catch2 REQUIRED)
 
-add_executable(test tests/test.cpp)
-target_link_libraries(test Catch2::Catch2 bodix)
+if(Catch2_FOUND)
+    add_executable(test tests/test.cpp)
+    target_link_libraries(test Catch2::Catch2 bodix)
+    add_test(all_test test)
+endif()
 
-add_test(all_test test)
+add_executable(main main.cpp)
+target_link_libraries(main bodix)
 
 target_compile_definitions(bodix PRIVATE BODIX_LIBRARY)

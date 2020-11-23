@@ -90,6 +90,15 @@ std::ostream& operator<<(std::ostream& os, const Edge<T> &e)
 }
 
 template<typename T>
+std::ostream& operator<<(std::ostream& os, const EdgeVec<T> &e)
+{
+    os<<"{\n";
+    for(const auto &elem: e)
+        os<<'\t'<<elem<<'\n';
+    return os<<'}';
+}
+
+template<typename T>
 bool operator==(const EdgeVec<T> &a, const EdgeVec<T> &b) {
     return std::equal(a.begin(), a.end(), b.begin());
 }
