@@ -24,8 +24,6 @@ if(NOT Catch2_FOUND)
     )
 
     FetchContent_MakeAvailable(Catch2)
-
-    target_link_libraries(tests Catch2::Catch2)
 endif()
 
 include(CTest)
