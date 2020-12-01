@@ -8,8 +8,7 @@
 #include <utility>
 #include <iostream>
 
-#include "bodix_global.h"
-
+// структура данных - ребро
 template<typename T>
 struct Edge
 {
@@ -24,9 +23,12 @@ struct Edge
     }
 };
 
+// структура данных - Система непересекающихся множеств
+// или раскрашенное множество
 template<typename T>
 struct DisjointSet
 {
+    // элемент подмножества, заданного значенем ранга (числом)
     struct Set
     {
         T elem;
@@ -54,12 +56,14 @@ struct DisjointSet
         vals(vec)
     {}
 
+    // создание N элементов в структуре
     DisjointSet(size_t N)
     {
         for(int i = 0; i < N; ++i)
             vals.push_back(Set{i, i});
     }
 
+    // поиск по значению
     Set Find(const T &elem) const
     {
         for(int i = 0; i < vals.size(); ++i)
@@ -67,6 +71,7 @@ struct DisjointSet
         return {T {}, -1};
     }
 
+    // обьединение двух подмножеств
     void Union(const Set &a, const Set &b)
     {
         const auto newrank = a.rank;
@@ -77,12 +82,15 @@ struct DisjointSet
     }
 };
 
+// Матрица N на N
 template<typename T, size_t N>
 using Matrix = T[N][N];
 
+// Массив ребер
 template<typename T>
 using EdgeVec = std::vector<Edge<T>>;
 
+// Вспомогательные функции__________________________________
 template<typename T>
 std::ostream& operator<<(std::ostream& os, const Edge<T> &e)
 {
@@ -102,8 +110,10 @@ template<typename T>
 bool operator==(const EdgeVec<T> &a, const EdgeVec<T> &b) {
     return std::equal(a.begin(), a.end(), b.begin());
 }
+//__________________________________________________________
 
 namespace Utils {
+    // из матрицы инцидентности выбираем все ребра
     template<typename T, size_t N>
     EdgeVec<T> make_vec(const Matrix<T, N> &mat)
     {
@@ -113,7 +123,7 @@ namespace Utils {
                 if (i > j && mat[j][i] != 0) retval.push_back(Edge<T>{j, i, mat[j][i]});
         return retval;
     }
-
+    // Сортируем ребра по возрастанию
     template<typename T>
     EdgeVec<T> sort(const EdgeVec<T> &vec)
     {
@@ -130,22 +140,33 @@ namespace Utils {
 
 namespace Kraskal
 {
+    // Матрица размера 10
     typedef Matrix<int, 10> LabMatrix;
 
+    // сам алгоритм
     template<typename T, size_t N>
     std::pair<EdgeVec<T>, T> invoke_alg(const Matrix<T,N> &mat)
     {
         EdgeVec<T> retval;
         T sum {};
         DisjointSet<T> set(N);
+        // Выбираем ребра из матрицы
         const auto UnsortedEdges = Utils::make_vec(mat);
+        // сортируем ребра
         const auto SortedEdges = Utils::sort(UnsortedEdges);
+        // идем по всем отсортированным вершинам
         for(const auto &elem: SortedEdges) {
+            // находим элемент из которого пришли в ребро
             const auto elem1 = set.Find(elem.from);
+            // находим элемент в который приходим из ребра
             const auto elem2 = set.Find(elem.to);
+            // если они из разных подмножеств, разных "цветов"
             if (elem1.rank != elem2.rank) {
+                // то добавляем ребро к остовному дереву
                 retval.push_back(elem);
+                // "перекрашиваем" структуру
                 set.Union(elem1, elem2);
+                // вычисляем сумму ребра
                 sum += elem.val;
             }
         }

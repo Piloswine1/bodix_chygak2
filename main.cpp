@@ -14,6 +14,8 @@ int main(int argc, char *argv[])
         {0, 0,  0,   0,  0,  0,  0,  0,  0,  12},
         {0, 0,  0,   0,  0,  0,  0,  0,  0,  0}
     };
+
+    // вызов влгоритма
     const auto [outVec, outSum] = Kraskal::invoke_alg(in);
 
     std::cout<<"Минимальная длинна кабеля: "<<outSum<<'\n';

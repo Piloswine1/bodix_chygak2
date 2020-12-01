@@ -7,7 +7,6 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_library(bodix SHARED
-  bodix_global.h
   bodix.cpp
   bodix.hpp
 )
